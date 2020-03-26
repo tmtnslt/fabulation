@@ -169,11 +169,13 @@ def main():
     parser = argparse.ArgumentParser(description='Render a story as html5.')
     parser.add_argument('input', help='input file')
     parser.add_argument('output', help='output file')
-
+    parser.add_argument('-d', action="store_true", help='use Development Template')
     args = parser.parse_args()
 
     syu_in_file = args.input
     html_out_file = args.output
+    if args.d:
+        frame_file = "frameDev.html"
 
     with open(syu_in_file, "r") as i:
         yaml_dict = yaml.load( i.read() )
