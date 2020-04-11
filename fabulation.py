@@ -170,6 +170,8 @@ def main():
     parser.add_argument('input', help='input file')
     parser.add_argument('output', help='output file')
     parser.add_argument('-d', action="store_true", help='use Development Template')
+    parser.add_argument('-f', help='resolve frequent guests field.')
+    parser.add_argument('-c', help='resolve cookie question field')
     args = parser.parse_args()
 
     syu_in_file = args.input
@@ -187,6 +189,8 @@ def main():
     meta = { i : m for i,(v,m) in info.items() }
 
     root = nodes['root']._ident
+    frequent = nodes[args.f]._ident if args.f else root
+    cookies = nodes[args.c]._ident if args.c else root
 
     js_meta = json.dumps(meta)
 
@@ -194,7 +198,7 @@ def main():
         template = Template(i.read())
 
     with open(html_out_file, "w") as o:
-        o.write(template.render(contexts=view,meta=js_meta,root=root))
+        o.write(template.render(contexts=view,meta=js_meta,root=root,cookies=cookies,frequent=frequent))
 
 if __name__ == "__main__":
     main()
